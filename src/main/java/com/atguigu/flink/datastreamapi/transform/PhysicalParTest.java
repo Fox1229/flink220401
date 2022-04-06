@@ -1,6 +1,5 @@
 package com.atguigu.flink.datastreamapi.transform;
 
-import org.apache.flink.api.common.functions.Partitioner;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 
 public class PhysicalParTest {
@@ -32,11 +31,6 @@ public class PhysicalParTest {
         /*env
                 .fromElements(1, 2, 3, 4, 5, 6)
                 .rescale()
-                .print("rescale发送").setParallelism(4);*/
-
-        /*env
-                .fromElements(1, 2, 3, 4, 5, 6)
-                .partitionCustom()
                 .print("rescale发送").setParallelism(4);*/
 
         env.execute();
