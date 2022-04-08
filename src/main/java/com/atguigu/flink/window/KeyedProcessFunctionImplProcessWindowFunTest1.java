@@ -11,7 +11,10 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
 import org.apache.flink.util.Collector;
 
-public class KeyedProcessFunctionImplementsProcessWindowFunAndAccTest {
+import java.util.ArrayList;
+import java.util.List;
+
+public class KeyedProcessFunctionImplProcessWindowFunTest1 {
 
     public static void main(String[] args) throws Exception {
 
@@ -21,68 +24,66 @@ public class KeyedProcessFunctionImplementsProcessWindowFunAndAccTest {
         env
                 .addSource(new ClickSource())
                 .keyBy(r -> r.username)
-                .process(new MyTumblingTimeWindowAndAcc(5000L))
+                .process(new MyProcessWindowFunction(5000L))
                 .print();
 
         env.execute();
     }
 
-    public static class MyTumblingTimeWindowAndAcc extends KeyedProcessFunction<String, Event, UserViewCountPerWindow> {
+    public static class MyProcessWindowFunction extends KeyedProcessFunction<String, Event, UserViewCountPerWindow> {
 
         private Long windowSize;
 
-        public MyTumblingTimeWindowAndAcc(Long windowSize) {
+        public MyProcessWindowFunction(Long windowSize) {
             this.windowSize = windowSize;
         }
 
-        // <窗口开始时间, 窗口中的累加器>
-        private MapState<Long, Long> mapState;
+        // 使用mapState维护每个用户在每个窗口的访问事件
+        // <窗口开始时间, 访问事件集合>
+        private MapState<Long, List<Event>> mapState;
 
         @Override
         public void open(Configuration parameters) throws Exception {
             mapState = getRuntimeContext().getMapState(
-                    new MapStateDescriptor<Long, Long>(
+                    new MapStateDescriptor<Long, List<Event>>(
                             "window-start-time",
                             Types.LONG,
-                            Types.LONG
+                            Types.LIST(Types.POJO(Event.class))
                     )
             );
         }
 
         @Override
-        public void processElement(Event value, KeyedProcessFunction<String, Event, UserViewCountPerWindow>.Context ctx, Collector<UserViewCountPerWindow> out) throws Exception {
+        public void processElement(Event event, KeyedProcessFunction<String, Event, UserViewCountPerWindow>.Context ctx, Collector<UserViewCountPerWindow> out) throws Exception {
 
-            // 计算窗口开始时间
+            // 获取当前操作时间
             long currentTs = ctx.timerService().currentProcessingTime();
+            // 计算窗口开始时间
             long windowStartTime = currentTs - currentTs % windowSize;
 
-            // 如果mapState中没有windowStartTime这个key，说明不存在这个窗口
-            // 也就是说属于这个窗口的第一条数据到来，才会开窗口
-            // 以下逻辑实现了AggregateFunction中的createAccumulator+add操作
-            if (!mapState.contains(windowStartTime)) {
-                // 第一条数据到达，累加器的值是1
-                mapState.put(windowStartTime, 1L);
+            // 判断mapState中是否包含该窗口的开始时间
+            if(!mapState.contains(windowStartTime)) {
+                // 没有该窗口开始时间，说明是第一条数据
+                ArrayList<Event> events = new ArrayList<>();
+                events.add(event);
+                mapState.put(windowStartTime, events);
             } else {
-                // 窗口中其他数据到达，累加器加1
-                mapState.put(windowStartTime, mapState.get(windowStartTime) + 1L);
+                // 存在窗口事件，将数据添加到窗口时间对应的集合中
+                mapState.get(windowStartTime).add(event);
             }
 
-            // 注册累加器窗口
-            ctx.timerService().registerProcessingTimeTimer(windowStartTime + windowSize - 1);
+            // 注册窗口停止时间的定时器
+            ctx.timerService().registerProcessingTimeTimer(windowStartTime + windowSize - 1L);
         }
 
-        /**
-         * onTimer实现了getResult+process
-         */
         @Override
         public void onTimer(long timestamp, KeyedProcessFunction<String, Event, UserViewCountPerWindow>.OnTimerContext ctx, Collector<UserViewCountPerWindow> out) throws Exception {
 
-            // 根据触发时间计算开始和结束时间
             String username = ctx.getCurrentKey();
+            // 根据定时器触发时间计算窗口开始和结束时间
             Long windowStartTime = timestamp + 1 - windowSize;
             Long windowStopTime = windowStartTime + windowSize;
-            // 获取窗口中累加器的值，类似getResult
-            Long count = mapState.get(windowStartTime);
+            long count = (long)mapState.get(windowStartTime).size();
 
             out.collect(new UserViewCountPerWindow(username, count, windowStartTime, windowStopTime));
         }

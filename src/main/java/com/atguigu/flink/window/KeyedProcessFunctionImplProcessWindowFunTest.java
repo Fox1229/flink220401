@@ -14,7 +14,10 @@ import org.apache.flink.util.Collector;
 import java.util.ArrayList;
 import java.util.List;
 
-public class KeyedProcessFunctionImplementsProcessWindowFunTest1 {
+/**
+ * 使用KeyedProcessFunction实现ProcessWindowFunction
+ */
+public class KeyedProcessFunctionImplProcessWindowFunTest {
 
     public static void main(String[] args) throws Exception {
 
@@ -24,22 +27,23 @@ public class KeyedProcessFunctionImplementsProcessWindowFunTest1 {
         env
                 .addSource(new ClickSource())
                 .keyBy(r -> r.username)
-                .process(new MyProcessWindowFunction(5000L))
+                .process(new MyTumblingTimeWindow(5000L))
                 .print();
 
         env.execute();
     }
 
-    public static class MyProcessWindowFunction extends KeyedProcessFunction<String, Event, UserViewCountPerWindow> {
+    public static class MyTumblingTimeWindow extends KeyedProcessFunction<String, Event, UserViewCountPerWindow> {
 
         private Long windowSize;
 
-        public MyProcessWindowFunction(Long windowSize) {
+        public MyTumblingTimeWindow(Long windowSize) {
             this.windowSize = windowSize;
         }
 
-        // 使用mapState维护每个用户在每个窗口的访问事件
-        // <窗口开始时间, 访问事件集合>
+        // 每个用户维护一个MapState
+        // key: 窗口开始时间
+        // values: 窗口中所有元素组成的ArrayList
         private MapState<Long, List<Event>> mapState;
 
         @Override
@@ -56,23 +60,22 @@ public class KeyedProcessFunctionImplementsProcessWindowFunTest1 {
         @Override
         public void processElement(Event event, KeyedProcessFunction<String, Event, UserViewCountPerWindow>.Context ctx, Collector<UserViewCountPerWindow> out) throws Exception {
 
-            // 获取当前操作时间
-            long currentTs = ctx.timerService().currentProcessingTime();
-            // 计算窗口开始时间
-            long windowStartTime = currentTs - currentTs % windowSize;
+            // 计算数据到达时间所属的窗口
+            long currentProcessingTime = ctx.timerService().currentProcessingTime();
+            long windowStartTime = currentProcessingTime - currentProcessingTime % windowSize;
 
-            // 判断mapState中是否包含该窗口的开始时间
-            if(!mapState.contains(windowStartTime)) {
-                // 没有该窗口开始时间，说明是第一条数据
+            // 判断该窗口开始时间是否存在
+            if (!mapState.contains(windowStartTime)) {
+                // 不存在，说明来的是该窗口的第一条数据
                 ArrayList<Event> events = new ArrayList<>();
                 events.add(event);
                 mapState.put(windowStartTime, events);
             } else {
-                // 存在窗口事件，将数据添加到窗口时间对应的集合中
+                // 存在，说明窗口已存在数据。获取该窗口开始时间对应的集合，并将数据添加到集合中
                 mapState.get(windowStartTime).add(event);
             }
 
-            // 注册窗口停止时间的定时器
+            // 在窗口事件-1毫秒处注册一个定时器
             ctx.timerService().registerProcessingTimeTimer(windowStartTime + windowSize - 1L);
         }
 
@@ -80,12 +83,18 @@ public class KeyedProcessFunctionImplementsProcessWindowFunTest1 {
         public void onTimer(long timestamp, KeyedProcessFunction<String, Event, UserViewCountPerWindow>.OnTimerContext ctx, Collector<UserViewCountPerWindow> out) throws Exception {
 
             String username = ctx.getCurrentKey();
-            // 根据定时器触发时间计算窗口开始和结束时间
-            Long windowStartTime = timestamp + 1 - windowSize;
-            Long windowStopTime = windowStartTime + windowSize;
-            long count = (long)mapState.get(windowStartTime).size();
+            long windowStartTime = timestamp + 1 - windowSize;
+            long windowStopTime = windowStartTime + windowSize;
+            Long count = (long) mapState.get(windowStartTime).size();
 
-            out.collect(new UserViewCountPerWindow(username, count, windowStartTime, windowStopTime));
+            out.collect(
+                    new UserViewCountPerWindow(
+                            username,
+                            count,
+                            windowStartTime,
+                            windowStopTime
+                    )
+            );
         }
     }
 }
