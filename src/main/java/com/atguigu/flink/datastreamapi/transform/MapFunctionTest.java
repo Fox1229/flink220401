@@ -1,6 +1,6 @@
 package com.atguigu.flink.datastreamapi.transform;
 
-import com.atguigu.flink.datastreamapi.pojo.Event;
+import com.atguigu.flink.pojo.Event;
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.common.functions.MapFunction;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;

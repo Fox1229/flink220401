@@ -1,6 +1,6 @@
 package com.atguigu.flink.datastreamapi.richfun;
 
-import com.atguigu.flink.datastreamapi.pojo.Event;
+import com.atguigu.flink.pojo.Event;
 import com.atguigu.flink.datastreamapi.transform.ClickSource;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;

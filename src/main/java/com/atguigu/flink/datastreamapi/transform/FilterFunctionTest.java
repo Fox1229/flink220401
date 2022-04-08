@@ -1,13 +1,11 @@
 package com.atguigu.flink.datastreamapi.transform;
 
-import com.atguigu.flink.datastreamapi.pojo.Event;
+import com.atguigu.flink.pojo.Event;
 import org.apache.flink.api.common.functions.FilterFunction;
 import org.apache.flink.api.common.functions.FlatMapFunction;
 import org.apache.flink.api.common.typeinfo.TypeHint;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.util.Collector;
-
-import javax.lang.model.element.ElementVisitor;
 
 public class FilterFunctionTest {
 

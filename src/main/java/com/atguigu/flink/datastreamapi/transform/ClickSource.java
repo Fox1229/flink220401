@@ -1,6 +1,6 @@
 package com.atguigu.flink.datastreamapi.transform;
 
-import com.atguigu.flink.datastreamapi.pojo.Event;
+import com.atguigu.flink.pojo.Event;
 import org.apache.flink.streaming.api.functions.source.SourceFunction;
 
 import java.util.Calendar;

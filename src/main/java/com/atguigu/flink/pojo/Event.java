@@ -1,4 +1,4 @@
-package com.atguigu.flink.datastreamapi.pojo;
+package com.atguigu.flink.pojo;
 
 import java.sql.Timestamp;
 
