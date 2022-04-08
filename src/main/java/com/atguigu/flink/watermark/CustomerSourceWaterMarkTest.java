@@ -1,4 +1,4 @@
-package com.atguigu.flink.waterline;
+package com.atguigu.flink.watermark;
 
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction;

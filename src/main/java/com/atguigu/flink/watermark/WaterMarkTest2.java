@@ -1,4 +1,4 @@
-package com.atguigu.flink.waterline;
+package com.atguigu.flink.watermark;
 
 import org.apache.flink.api.common.eventtime.SerializableTimestampAssigner;
 import org.apache.flink.api.common.eventtime.WatermarkStrategy;
