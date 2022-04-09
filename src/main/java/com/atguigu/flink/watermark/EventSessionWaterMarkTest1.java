@@ -15,7 +15,7 @@ import java.time.Duration;
 /**
  * 自定义水位线
  */
-public class CustomerWaterMarkTest1 {
+public class EventSessionWaterMarkTest1 {
 
     public static void main(String[] args) throws Exception {
 

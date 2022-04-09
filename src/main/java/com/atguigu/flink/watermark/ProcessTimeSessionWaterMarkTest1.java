@@ -19,6 +19,8 @@ public class ProcessTimeSessionWaterMarkTest1 {
         env
                 .addSource(
                         new SourceFunction<String>() {
+
+                            // 这个方法不会发送水位线
                             @Override
                             public void run(SourceContext<String> ctx) throws Exception {
                                 ctx.collectWithTimestamp("hello", 1000L);

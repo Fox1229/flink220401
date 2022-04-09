@@ -13,7 +13,7 @@ import org.apache.flink.util.Collector;
 /**
  * 自定义水位线
  */
-public class CustomerWaterMarkTest {
+public class EventSessionWaterMarkTest {
 
     public static void main(String[] args) throws Exception {
 
