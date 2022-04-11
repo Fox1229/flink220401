@@ -19,17 +19,19 @@ public class CustomerPartTest1 {
         // 自定义分区
         env
                 .fromElements(1, 2, 3, 4, 5, 6, 7, 8)
-                .partitionCustom(new Partitioner<Integer>() {
-                    @Override
-                    public int partition(Integer key, int numPartitions) {
-                        return key;
-                    }
-                }, new KeySelector<Integer, Integer>() {
-                    @Override
-                    public Integer getKey(Integer value) throws Exception {
-                        return value % 3;
-                    }
-                })
+                .partitionCustom(
+                        new Partitioner<Integer>() {
+                            @Override
+                            public int partition(Integer key, int numPartitions) {
+                                return key;
+                            }
+                        },
+                        new KeySelector<Integer, Integer>() {
+                            @Override
+                            public Integer getKey(Integer value) throws Exception {
+                                return value % 3;
+                            }
+                        })
                 .print("MyPart").setParallelism(3);
 
         env.execute();

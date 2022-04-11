@@ -1,4 +1,4 @@
-package com.atguigu.flink.lowapi;
+package com.atguigu.flink.window;
 
 import com.atguigu.flink.pojo.SensorReading;
 import org.apache.flink.streaming.api.functions.source.SourceFunction;

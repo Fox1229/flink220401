@@ -64,7 +64,7 @@ public class HotProductByTimeTest2 {
 
     public static class ProductCountTopN extends KeyedProcessFunction<Long, ProductViewCountPerWindow, String> {
 
-        private Integer productCnt;
+        private final Integer productCnt;
         private ListState<ProductViewCountPerWindow> listState;
 
         public ProductCountTopN(Integer productCnt) {

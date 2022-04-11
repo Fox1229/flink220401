@@ -66,7 +66,7 @@ public class InnerJoinTest {
             history1.add(event);
 
             for (Event tmp : history2.get()) {
-                out.collect(event + " => " + tmp);
+                out.collect(event + " -> " + tmp);
             }
         }
 
