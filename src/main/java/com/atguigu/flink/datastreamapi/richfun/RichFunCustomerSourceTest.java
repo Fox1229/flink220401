@@ -2,7 +2,6 @@ package com.atguigu.flink.datastreamapi.richfun;
 
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.source.RichParallelSourceFunction;
-import org.apache.flink.streaming.api.functions.source.RichSourceFunction;
 
 public class RichFunCustomerSourceTest {
 

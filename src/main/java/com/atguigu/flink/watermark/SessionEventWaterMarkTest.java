@@ -38,7 +38,7 @@ public class SessionEventWaterMarkTest {
                 .process(
                         new ProcessWindowFunction<String, String, Integer, TimeWindow>() {
                             @Override
-                            public void process(Integer integer, ProcessWindowFunction<String, String, Integer, TimeWindow>.Context context, Iterable<String> elements, Collector<String> out) throws Exception {
+                            public void process(Integer integer, Context context, Iterable<String> elements, Collector<String> out) throws Exception {
 
                                 out.collect("窗口" + context.window().getStart() + "~" + context.window().getEnd() +
                                         "共有" + elements.spliterator().getExactSizeIfKnown() + "条数据");

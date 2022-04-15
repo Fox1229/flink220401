@@ -27,7 +27,7 @@ import java.util.Properties;
 /**
  * 从kafka消费数据
  *
- * 从文件消费数据，默认会有+MAX刷新水位线，但是从kafka消费数据，不会提供，因此会比从文件读取的数据少
+ * 从文件消费数据，默认会有+MAX刷新水位线，但是从kafka消费数据，不会提供，因此有“数据缺失”
  */
 public class ConsumerByKafkaTest {
 

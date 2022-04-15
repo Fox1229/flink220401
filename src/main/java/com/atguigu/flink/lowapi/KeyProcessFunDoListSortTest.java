@@ -88,7 +88,6 @@ public class KeyProcessFunDoListSortTest {
                         })
                 .print();
 
-
         env.execute();
     }
 }

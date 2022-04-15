@@ -1,8 +1,6 @@
 package com.atguigu.flink.datastreamapi.transform;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.Type;
 import org.apache.flink.api.common.functions.FlatMapFunction;
-import org.apache.flink.api.common.typeinfo.TypeHint;
 import org.apache.flink.api.common.typeinfo.Types;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.util.Collector;
