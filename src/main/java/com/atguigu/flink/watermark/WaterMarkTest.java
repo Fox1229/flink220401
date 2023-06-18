@@ -18,7 +18,7 @@ public class WaterMarkTest {
     public static void main(String[] args) throws Exception {
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        env.setParallelism(1);
+        env.setParallelism(2);
 
         env
                 .socketTextStream("hadoop102", 9999)

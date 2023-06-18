@@ -17,10 +17,10 @@ public class StreamJoinTest {
     public static void main(String[] args) throws Exception {
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
-        env.setParallelism(1);
+        env.setParallelism(2);
 
         SingleOutputStreamOperator<Tuple2<String, Long>> stream1 = env
-                .socketTextStream("hadoop102", 9999)
+                .socketTextStream("hadoop102", 6666)
                 .map(new MapFunction<String, Tuple2<String, Long>>() {
                     @Override
                     public Tuple2<String, Long> map(String value) throws Exception {
@@ -40,13 +40,15 @@ public class StreamJoinTest {
 
         SingleOutputStreamOperator<Tuple2<String, Long>> stream2 = env
                 .socketTextStream("hadoop102", 8888)
-                .map(new MapFunction<String, Tuple2<String, Long>>() {
-                    @Override
-                    public Tuple2<String, Long> map(String value) throws Exception {
-                        String[] fields = value.split(" ");
-                        return Tuple2.of(fields[0], Long.parseLong(fields[1]) * 1000L);
-                    }
-                }).assignTimestampsAndWatermarks(
+                .map(
+                        new MapFunction<String, Tuple2<String, Long>>() {
+                            @Override
+                            public Tuple2<String, Long> map(String value) throws Exception {
+                                String[] fields = value.split(" ");
+                                return Tuple2.of(fields[0], Long.parseLong(fields[1]) * 1000L);
+                            }
+                        })
+                .assignTimestampsAndWatermarks(
                         WatermarkStrategy
                                 .<Tuple2<String, Long>>forMonotonousTimestamps()
                                 .withTimestampAssigner(new SerializableTimestampAssigner<Tuple2<String, Long>>() {
@@ -63,7 +65,7 @@ public class StreamJoinTest {
                 .process(
                         new ProcessFunction<Tuple2<String, Long>, String>() {
                             @Override
-                            public void processElement(Tuple2<String, Long> value, ProcessFunction<Tuple2<String, Long>, String>.Context ctx, Collector<String> out) throws Exception {
+                            public void processElement(Tuple2<String, Long> value, Context ctx, Collector<String> out) throws Exception {
 
                                 out.collect("数据" + value + "到达，当前水位线是：" + ctx.timerService().currentWatermark());
                             }

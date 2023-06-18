@@ -50,7 +50,7 @@ public class KeyedProcessFunctionImplProcessWindowFunAndAccTest {
         }
 
         @Override
-        public void processElement(Event value, KeyedProcessFunction<String, Event, UserViewCountPerWindow>.Context ctx, Collector<UserViewCountPerWindow> out) throws Exception {
+        public void processElement(Event value, Context ctx, Collector<UserViewCountPerWindow> out) throws Exception {
 
             // 计算窗口开始时间
             long currentTs = ctx.timerService().currentProcessingTime();
@@ -75,7 +75,7 @@ public class KeyedProcessFunctionImplProcessWindowFunAndAccTest {
          * onTimer实现了getResult+process
          */
         @Override
-        public void onTimer(long timestamp, KeyedProcessFunction<String, Event, UserViewCountPerWindow>.OnTimerContext ctx, Collector<UserViewCountPerWindow> out) throws Exception {
+        public void onTimer(long timestamp, OnTimerContext ctx, Collector<UserViewCountPerWindow> out) throws Exception {
 
             // 根据触发时间计算开始和结束时间
             String username = ctx.getCurrentKey();

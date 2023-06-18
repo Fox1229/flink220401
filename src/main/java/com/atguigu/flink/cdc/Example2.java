@@ -6,13 +6,13 @@ import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
 
 public class Example2 {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         StreamTableEnvironment streamTableEnvironment = StreamTableEnvironment.create(env, EnvironmentSettings.newInstance().inStreamingMode().build());
 
         streamTableEnvironment
-                .executeSql("CREATE TABLE clicks (" +
+                .executeSql("CREATE TABLE aaa (" +
                         "id INT, " +
                         "username STRING," +
                         "url STRING," +
@@ -27,6 +27,8 @@ public class Example2 {
                         "'table-name' = 'clicks'" +
                         ")");
 
-        streamTableEnvironment.executeSql("select * from clicks").print();
+        streamTableEnvironment.executeSql("select * from aaa").print();
+
+//        env.execute();
     }
 }
