@@ -16,12 +16,12 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 
 /**
- * æ±‚è§£ç‹¬ç«‹è®¿å®¢
- * ä½¿ç”¨HashSetç»´æŠ¤
- * é—®é¢˜ï¼š
- *      å½“çª—å£ä¸­çš„ç‹¬ç«‹è®¿å®¢è¿‡å¤šï¼Œä¸”ä¿å­˜çš„å­—æ®µè¾ƒé•¿ï¼ˆå¦‚ï¼šurlï¼‰æ—¶ï¼Œå°±è¦åœ¨å†…å­˜ä¸­ä¿å­˜å¤§é‡çš„æ•°æ®
- *             1æ¡æ•°æ® 0.1Kï¼Œ1äº¿ç”¨æˆ· => 10G
- *      å½“æ»‘åŠ¨æ­¥é•¿å¾ˆçŸ­æ—¶ï¼Œæ¯æ¬¡æ»‘åŠ¨éƒ½è¦å ç”¨10Gå†…å­˜ï¼Œæ‰¿æ‹…ä¸èµ·
+ * Çó½â¶ÀÁ¢·Ã¿Í
+ * Ê¹ÓÃHashSetÎ¬»¤
+ * ÎÊÌâ£º
+ *      µ±´°¿ÚÖĞµÄ¶ÀÁ¢·Ã¿Í¹ı¶à£¬ÇÒ±£´æµÄ×Ö¶Î½Ï³¤£¨Èç£ºurl£©Ê±£¬¾ÍÒªÔÚÄÚ´æÖĞ±£´æ´óÁ¿µÄÊı¾İ
+ *             1ÌõÊı¾İ 0.1K£¬1ÒÚÓÃ»§ => 10G
+ *      µ±»¬¶¯²½³¤ºÜ¶ÌÊ±£¬Ã¿´Î»¬¶¯¶¼ÒªÕ¼ÓÃ10GÄÚ´æ£¬³Ğµ£²»Æğ
  */
 public class UserVisitCountTest {
 
@@ -62,7 +62,7 @@ public class UserVisitCountTest {
 
                             @Override
                             public HashSet<String> add(UserBehavior value, HashSet<String> accumulator) {
-                                // å»é‡
+                                // È¥ÖØ
                                 accumulator.add(value.userId);
                                 return accumulator;
                             }
@@ -81,9 +81,9 @@ public class UserVisitCountTest {
                             @Override
                             public void process(Integer integer, ProcessWindowFunction<Long, String, Integer, TimeWindow>.Context context, Iterable<Long> elements, Collector<String> out) throws Exception {
 
-                                out.collect("çª—å£" + new Timestamp(context.window().getStart()) + "~"
-                                        + new Timestamp(context.window().getEnd()) + "é‡Œé¢æœ‰"
-                                        + elements.iterator().next() + "ä¸ªç‹¬ç«‹è®¿å®¢ã€‚");
+                                out.collect("´°¿Ú" + new Timestamp(context.window().getStart()) + "~"
+                                        + new Timestamp(context.window().getEnd()) + "ÀïÃæÓĞ"
+                                        + elements.iterator().next() + "¸ö¶ÀÁ¢·Ã¿Í¡£");
                             }
                         }
                 )

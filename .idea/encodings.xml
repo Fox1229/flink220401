@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="GBK">
+    <file url="file://$PROJECT_DIR$/src/main/java/com/atguigu/flink/req/UserVisitCountTest.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/atguigu/flink/util/DateFormatUtil.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/atguigu/flink_exer/Test1.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/atguigu/flink_exer/Test2_HotProductByTime.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/atguigu/flink_exer/Test3_HotProductByTime.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/atguigu/flink_exer/other/Test10_WaterMark.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/atguigu/flink_exer/other/Test12_WaterMark.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/atguigu/flink_exer/other/Test14_OnTimer.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/atguigu/flink_exer/other/Test15_ValueState.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/atguigu/flink_exer/other/Test16_ValueState.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/atguigu/flink_exer/other/Test17_ListState.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/atguigu/flink_exer/other/Test19_TempUp.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/atguigu/flink_exer/other/Test1_HotProductByTime.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/atguigu/flink_exer/other/Test24_LaterDate.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/atguigu/flink_exer/other/Test4_HotProductByTime.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/atguigu/flink_exer/other/Test7_UVByBloomFilter.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/atguigu/flink_exer/other/Test8_UserViewCountTop3.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/atguigu/flink_exer/other/Test9_WaterMark.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/src/main/java/com/atguigu/flink_exer/skew_data/function/LocalKeyByFlatMapFunc.java" charset="UTF-8" />
+    <file url="PROJECT" charset="GBK" />
+  </component>
+</project>

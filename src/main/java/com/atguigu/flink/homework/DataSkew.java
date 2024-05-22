@@ -12,8 +12,8 @@ import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
 import org.apache.flink.util.Collector;
-
 import java.util.Random;
+
 
 public class DataSkew {
 
@@ -55,7 +55,14 @@ public class DataSkew {
                             @Override
                             public Tuple3<String, Integer, Long> map(Tuple2<String, Long> in) throws Exception {
                                 String[] fields = in.f0.split("-");
-                                return Tuple3.of(fields[0], Integer.parseInt(fields[1]), in.f1);
+                                return Tuple3.of(
+                                        // 原key
+                                        fields[0],
+                                        // 随机值
+                                        Integer.parseInt(fields[1]),
+                                        // count
+                                        in.f1
+                                );
                             }
                         }
                 )
@@ -91,6 +98,9 @@ public class DataSkew {
         @Override
         public void processElement(Tuple3<String, Integer, Long> in, KeyedProcessFunction<String, Tuple3<String, Integer, Long>, Tuple2<String, Long>>.Context ctx, Collector<Tuple2<String, Long>> out) throws Exception {
 
+            // 覆盖之前累积结果
+            // a 0 4
+            // a 0 5
             mapState.put(in.f1, in.f2);
             long total = 0L;
             for (Long cnt : mapState.values()) {

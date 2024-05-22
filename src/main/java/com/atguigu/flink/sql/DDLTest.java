@@ -29,8 +29,11 @@ public class DDLTest {
         streamTableEnvironment.executeSql(outSql);
 
         // 从输入表查询，将查询结果写入输出表
-        String result = "insert into resultTable " +
-                "select username, count(username) cnt from clicks group by username";
+        String result =
+                "insert into resultTable " +
+                "select username, count(username) cnt " +
+                "from clicks " +
+                "group by username";
         streamTableEnvironment.executeSql(result);
     }
 }

@@ -14,7 +14,7 @@ public class ClickSource implements SourceFunction<Event> {
     private Boolean running = true;
     private Random random = new Random();
     private String[] users = {"Mary", "Bob", "Alice", "John", "Liz"};
-    private String[] urls = {"./home", "./cart", "./buy", "./prod?id=1"};
+    private String[] urls = {"./home", "./cart", "./buy", "./prod"};
 
     // flink run jobId 会触发run方法的执行
     @Override
@@ -26,7 +26,7 @@ public class ClickSource implements SourceFunction<Event> {
                     Calendar.getInstance().getTimeInMillis()
             ));
 
-            Thread.sleep(1000L);
+            Thread.sleep(100L);
         }
     }
 

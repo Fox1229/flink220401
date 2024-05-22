@@ -41,8 +41,7 @@ public class SideOutputStreamTest {
                                 // 数据
                                 if (ctx.timestamp() < ctx.timerService().currentWatermark()) {
                                     ctx.output(
-                                            new OutputTag<String>("later-event") {
-                                            },
+                                            new OutputTag<String>("later-event") {},
                                             "数据" + value + "迟到了，数据的事件时间是：" + ctx.timestamp() +
                                                     "，当前水位线：" + ctx.timerService().currentWatermark()
                                     );

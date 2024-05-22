@@ -95,7 +95,9 @@ public class TriggerTest {
             if (time < window.getEnd()) {
                 // 注册接下来的整数秒的定时器
                 // 注册的还是onEventTime
-                ctx.registerEventTimeTimer(time + 1000L);
+                if (time + 1000 < window.getEnd()) {
+                    ctx.registerEventTimeTimer(time + 1000L);
+                }
 
                 // 触发后面的aggregate算子，执行窗口聚合计算
                 // 但不销毁窗口

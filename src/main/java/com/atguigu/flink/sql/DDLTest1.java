@@ -30,9 +30,11 @@ public class DDLTest1 {
         streamTableEnvironment.executeSql(outSql);
 
         // 执行查询
-        String sql = "insert into resultTable " +
+        String sql =
+                "insert into resultTable " +
                 "select username, count(username), TUMBLE_END(ts, interval '5' seconds) end_time " +
-                "from clicks group by username, tumble(ts, interval '5' seconds)";
+                "from clicks " +
+                "group by username, tumble(ts, interval '5' seconds)";
         streamTableEnvironment.executeSql(sql);
     }
 }
